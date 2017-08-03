@@ -17,7 +17,7 @@ import com.helper.revern.utils.ui.UiInfo
  * Created by Revern on 31.07.2017.
  */
 
-class HomeController : BaseController<HomeView, HomePresenter, HomeController>(), HomeView {
+class HomeController : BaseController(), HomeView {
 
     @InjectPresenter(type = PresenterType.LOCAL) lateinit var presenter: HomePresenter
 
@@ -29,10 +29,6 @@ class HomeController : BaseController<HomeView, HomePresenter, HomeController>()
         uiTitle.text = msg
     }
 
-    override fun createMvpDelegate(): MvpDelegate<HomeController> {
-        return MvpDelegate(this)
-    }
-
     @BindView(R.id.title_home) lateinit var uiTitle: TextView
     @BindView(R.id.tab_layout) lateinit var uiTabs: TabLayout
     @BindView(R.id.view_pager) lateinit var uiPager: ViewPager
@@ -40,17 +36,9 @@ class HomeController : BaseController<HomeView, HomePresenter, HomeController>()
     @OnClick(R.id.title_home) fun onTitleClick(view: View) {
         presenter.changeTitle()
     }
-//    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
-//        var view = inflater.inflate(R.layout.screen_home, container, false)
-//        ButterKnife.bind(this, view)
-//
-//        initPager()
-//        return view
-//    }
 
-    override fun onAttach(view: View) {
+    override fun onCreateView(view: View) {
         initPager()
-        super.onAttach(view)
     }
 
     fun initPager() {

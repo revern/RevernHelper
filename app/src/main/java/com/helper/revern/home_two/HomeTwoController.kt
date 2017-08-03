@@ -1,6 +1,7 @@
 package com.helper.revern.home_two
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -71,7 +72,6 @@ class HomeTwoController : Controller, HomeTwoView {
     override fun onDestroyView(view: View) {
         super.onDestroyView(view)
         getMvpDelegate().onDestroyView()
-
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -80,10 +80,10 @@ class HomeTwoController : Controller, HomeTwoView {
         getMvpDelegate().onDetach()
     }
 
-//    override fun onRestoreViewState(view: View, savedViewState: Bundle) {
-//        super.onRestoreViewState(view, savedViewState)
-//        getMvpDelegate().onCreate()
-//    }
+    override fun onRestoreViewState(view: View, savedViewState: Bundle) {
+        super.onRestoreViewState(view, savedViewState)
+        getMvpDelegate().onCreate(savedViewState)
+    }
 
     fun getMvpDelegate(): MvpDelegate<HomeTwoController> {
         if (mvpDelegate == null) {
@@ -94,11 +94,6 @@ class HomeTwoController : Controller, HomeTwoView {
 
     override fun onDestroy() {
         super.onDestroy()
-
-        if (activity?.isFinishing ?: false) {
-            getMvpDelegate().onDestroy()
-            return
-        }
-
+        getMvpDelegate().onDestroy()
     }
 }

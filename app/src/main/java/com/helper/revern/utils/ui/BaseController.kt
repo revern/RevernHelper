@@ -13,24 +13,30 @@ import com.bluelinelabs.conductor.Controller
  */
 
 
-abstract class BaseController<V : BaseView, P : BasePresenter<V>, C : BaseController<V, P, C>> : Controller {
+abstract class BaseController : Controller {
 
     constructor() : this(null)
-
     constructor(args: Bundle?) : super(args)
 
-    abstract fun createUiInfo(): UiInfo
-
     private lateinit var uiInfo: UiInfo
-    private var mvpDelegate: MvpDelegate<C>? = null
+    private var mvpDelegate: MvpDelegate<out BaseController>? = null
 
-    //TODO try on JAVA. crash when in base class, works only when init on child class
-//    @InjectPresenter(type = PresenterType.LOCAL) lateinit var presenter: P
+    abstract fun createUiInfo(): UiInfo
+    abstract fun onCreateView(view: View)
+
+    fun getMvpDelegate(): MvpDelegate<out BaseController> {
+        if (mvpDelegate == null) {
+            mvpDelegate = MvpDelegate(this)
+        }
+        return mvpDelegate as MvpDelegate<out BaseController>
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         uiInfo = createUiInfo()
         var view = inflater.inflate(uiInfo.resLayout, container, false)
         ButterKnife.bind(this, view)
+
+        onCreateView(view)
 
         getMvpDelegate().onCreate()
         return view
@@ -49,7 +55,6 @@ abstract class BaseController<V : BaseView, P : BasePresenter<V>, C : BaseContro
     override fun onDestroyView(view: View) {
         super.onDestroyView(view)
         getMvpDelegate().onDestroyView()
-
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -60,27 +65,12 @@ abstract class BaseController<V : BaseView, P : BasePresenter<V>, C : BaseContro
 
     override fun onRestoreViewState(view: View, savedViewState: Bundle) {
         super.onRestoreViewState(view, savedViewState)
-        getMvpDelegate().onCreate()
+        getMvpDelegate().onCreate(savedViewState)
     }
-
-    fun getMvpDelegate(): MvpDelegate<C> {
-        if (mvpDelegate == null) {
-            mvpDelegate = createMvpDelegate()
-        }
-        return mvpDelegate as MvpDelegate<C>
-    }
-
-    abstract fun createMvpDelegate(): MvpDelegate<C>
 
     override fun onDestroy() {
         super.onDestroy()
-
-        if (activity?.isFinishing ?: false) {
-//            getMvpDelegate().onDestroy()
-            return
-        }
-
+        getMvpDelegate().onDestroy()
     }
-
 
 }
