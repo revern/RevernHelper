@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.TextView
 import butterknife.BindView
 import butterknife.OnClick
-import com.arellomobile.mvp.MvpDelegate
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
 import com.helper.revern.R
@@ -42,7 +41,7 @@ class HomeController : BaseController(), HomeView {
     }
 
     fun initPager() {
-        val adapter = ConductorAdapter(this)
+        val adapter = HomeAdapter(this)
         uiPager.adapter = adapter
 
         uiTabs.setupWithViewPager(uiPager)

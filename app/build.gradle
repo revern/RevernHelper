@@ -35,6 +35,9 @@ dependencies {
     implementation "com.arello-mobile:moxy:$moxy_version"
     kapt "com.arello-mobile:moxy-compiler:$moxy_version"
 
+    implementation 'io.reactivex:rxjava:1.1.6'
+    implementation 'io.reactivex:rxandroid:1.2.1'
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.0'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.0'
