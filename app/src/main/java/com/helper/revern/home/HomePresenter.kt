@@ -1,11 +1,8 @@
 package com.helper.revern.home
 
 import com.arellomobile.mvp.InjectViewState
-import com.helper.revern.utils.ui.BasePresenter
+import com.helper.revern.base.BasePresenter
 
-/**
- * Created by Revern on 01.08.2017.
- */
 @InjectViewState
 class HomePresenter : BasePresenter<HomeView>() {
     fun changeTitle() {

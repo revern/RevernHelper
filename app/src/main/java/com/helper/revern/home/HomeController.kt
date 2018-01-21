@@ -9,19 +9,15 @@ import butterknife.OnClick
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
 import com.helper.revern.R
-import com.helper.revern.utils.ui.BaseController
+import com.helper.revern.base.BaseController
 import com.helper.revern.utils.ui.UiInfo
-
-/**
- * Created by Revern on 31.07.2017.
- */
 
 class HomeController : BaseController(), HomeView {
 
     @InjectPresenter(type = PresenterType.LOCAL) lateinit var presenter: HomePresenter
 
-    override fun createUiInfo(): UiInfo {
-        return UiInfo(R.layout.screen_home)
+    override fun getUiInfo(): UiInfo {
+        return UiInfo(R.layout.screen_home, R.string.app_name)
     }
 
     override fun changeTitle(msg: String) {
@@ -40,8 +36,8 @@ class HomeController : BaseController(), HomeView {
         initPager()
     }
 
-    fun initPager() {
-        val adapter = HomeAdapter(this)
+    private fun initPager() {
+        val adapter = HomeAdapter(this, applicationContext)
         uiPager.adapter = adapter
 
         uiTabs.setupWithViewPager(uiPager)

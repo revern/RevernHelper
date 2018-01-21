@@ -1,5 +1,6 @@
-package com.helper.revern.utils.ui
+package com.helper.revern.base
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,24 +8,19 @@ import android.view.ViewGroup
 import butterknife.ButterKnife
 import com.arellomobile.mvp.MvpDelegate
 import com.bluelinelabs.conductor.Controller
-
-/**
- * Created by Revern on 01.08.2017.
- */
-
+import com.helper.revern.utils.ui.UiInfo
 
 abstract class BaseController : Controller {
 
     constructor() : this(null)
     constructor(args: Bundle?) : super(args)
 
-    private lateinit var uiInfo: UiInfo
     private var mvpDelegate: MvpDelegate<out BaseController>? = null
 
-    abstract fun createUiInfo(): UiInfo
+    abstract fun getUiInfo(): UiInfo
     abstract fun onCreateView(view: View)
 
-    fun getMvpDelegate(): MvpDelegate<out BaseController> {
+    private fun getMvpDelegate(): MvpDelegate<out BaseController> {
         if (mvpDelegate == null) {
             mvpDelegate = MvpDelegate(this)
         }
@@ -32,8 +28,7 @@ abstract class BaseController : Controller {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
-        uiInfo = createUiInfo()
-        var view = inflater.inflate(uiInfo.resLayout, container, false)
+        var view = inflater.inflate(getUiInfo().resLayout, container, false)
         ButterKnife.bind(this, view)
 
         onCreateView(view)

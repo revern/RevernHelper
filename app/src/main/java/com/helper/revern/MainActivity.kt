@@ -13,7 +13,7 @@ import com.helper.revern.home.HomeController
 class MainActivity : AppCompatActivity() {
 
     @BindView(R.id.controller_container) lateinit var container: ViewGroup
-    lateinit var router: Router
+    private lateinit var router: Router
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
