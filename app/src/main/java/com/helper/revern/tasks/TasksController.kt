@@ -10,7 +10,6 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
 import com.helper.revern.R
 import com.helper.revern.base.BaseController
-import com.helper.revern.base.rc_view.DragAndDropHelperCallback
 import com.helper.revern.tasks.models.Task
 import com.helper.revern.tasks.rc_view.OnTasksClickListener
 import com.helper.revern.tasks.rc_view.TaskHolder
@@ -45,6 +44,9 @@ class TasksController : BaseController(), TasksView {
             EditTextDialog.show(activity!!, R.string.title_new_task,
                     Func1 { text -> if (!Strings.isEmty(text)) presenter.addTask(text) })
         }
+        uiAddTask.setOnLongClickListener({ _ ->
+            presenter.removeLast()
+        })
     }
 
     override fun showTasks(tasks: MutableList<Task>) {

@@ -6,11 +6,13 @@ import android.content.SharedPreferences
 class Prefs private constructor() {
 
     companion object {
-        lateinit var prefs : SharedPreferences
+        private lateinit var sPrefs: SharedPreferences
 
         fun initialize(context: Context) {
-            prefs = context.getSharedPreferences(context.packageName,Context.MODE_PRIVATE)
+            sPrefs = context.getSharedPreferences(context.packageName, Context.MODE_PRIVATE)
         }
+
+        fun instance() = sPrefs
     }
 
 }

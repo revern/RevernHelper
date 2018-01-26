@@ -5,7 +5,7 @@ import com.helper.revern.base.BasePresenter
 
 @InjectViewState
 class HomePresenter : BasePresenter<HomeView>() {
-    fun changeTitle() {
-        viewState.changeTitle("Base is Working")
+    fun changeTitle(text: String) {
+        viewState.changeTitle(text)
     }
 }

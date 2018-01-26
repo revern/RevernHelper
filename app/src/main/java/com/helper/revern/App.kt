@@ -9,6 +9,8 @@ class App : Application() {
         super.onCreate()
 
         Prefs.initialize(this)
+
+        AppDatabase.initialize(this)
     }
 
 }

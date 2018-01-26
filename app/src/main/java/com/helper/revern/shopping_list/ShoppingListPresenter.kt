@@ -23,7 +23,7 @@ class ShoppingListPresenter : BasePresenter<ShoppingListView>() {
     }
 
     private fun loadSavedShoppingList() {
-        val savedShoppingListJson: String? = Prefs.prefs.getString(KEY_SHOPPING_LIST, null) ?: return
+        val savedShoppingListJson: String? = Prefs.instance().getString(KEY_SHOPPING_LIST, null) ?: return
 
         val savedShoppingList : List<ShoppingItem> = Gson()
                 .fromJson(savedShoppingListJson, object : TypeToken<List<ShoppingItem>>(){}.type)

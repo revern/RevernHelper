@@ -10,17 +10,18 @@ open class BaseDragAndDropRcvAdapter<T, VH : BaseRcvHolder<T>>(
         onRcvItemClickListener: OnRcvItemClickListener<T>? = null)
     : BaseRcvAdapter<T, VH>(items, holderCreator, onRcvItemClickListener), DragAndDropAdapter {
 
-    override fun onItemMove(fromPosition: Int, toPosition: Int) {
-        if (fromPosition < toPosition) {
-            for (i in fromPosition until toPosition) {
+    override fun onItemMove(positionFrom: Int, positionTo: Int) {
+        if (positionFrom < positionTo) {
+            for (i in positionFrom until positionTo) {
                 Collections.swap(getItems(), i, i + 1)
+
             }
         } else {
-            for (i in fromPosition downTo toPosition + 1) {
+            for (i in positionFrom downTo positionTo + 1) {
                 Collections.swap(getItems(), i, i - 1)
             }
         }
-        notifyItemMoved(fromPosition, toPosition)
+        notifyItemMoved(positionFrom, positionTo)
     }
 
 }

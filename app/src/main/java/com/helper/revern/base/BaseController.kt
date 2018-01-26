@@ -28,7 +28,7 @@ abstract class BaseController : Controller {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
-        var view = inflater.inflate(getUiInfo().resLayout, container, false)
+        val view = inflater.inflate(getUiInfo().resLayout, container, false)
         ButterKnife.bind(this, view)
 
         onCreateView(view)
