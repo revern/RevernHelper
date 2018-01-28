@@ -46,18 +46,19 @@ class TasksController : BaseController(), TasksView, OnRcvItemClickListener<Task
             EditTextDialog.show(activity!!, R.string.title_new_task,
                     Func1 { text -> if (!Strings.isEmty(text)) presenter.addTask(text) })
         }
-        uiAddTask.setOnLongClickListener({ _ ->
-            presenter.removeLast()
-        })
     }
 
     override fun showTasks(tasks: MutableList<Task>) {
         adapter = TasksAdapter(tasks, TaskHolder.getHolderCreator(), this)
         uiTasks.adapter = adapter
         val itemTouchHelper = ItemTouchHelper(TasksDragAndDropHelperCallback(adapter, Func0 {
-            presenter.saveTasks()
+            presenter.updateTasks()
         }))
         itemTouchHelper.attachToRecyclerView(uiTasks)
+    }
+
+    fun removeAllCrossed() {
+        presenter.removeAllCrossed()
     }
 
     override fun onItemClick(view: View, item: Task) {
@@ -76,7 +77,7 @@ class TasksController : BaseController(), TasksView, OnRcvItemClickListener<Task
         uiTasks.scrollToPosition(adapter.itemCount - 1)
     }
 
-    override fun deleteTask(task: Task) {
+    override fun removeTask(task: Task) {
         adapter.remove(task)
     }
 

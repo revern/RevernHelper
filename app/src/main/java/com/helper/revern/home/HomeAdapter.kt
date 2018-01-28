@@ -12,8 +12,7 @@ import com.helper.revern.tasks.TasksController
 
 class HomeAdapter(host: Controller, private var context: Context?) : RouterPagerAdapter(host) {
 
-
-    private val pages : MutableList<BaseController> = listOf(TasksController(), ShoppingListController())
+    private val pages: MutableList<BaseController> = listOf(TasksController(), ShoppingListController())
 
     override fun configureRouter(router: Router, position: Int) {
         if (!router.hasRootController()) {
@@ -22,11 +21,10 @@ class HomeAdapter(host: Controller, private var context: Context?) : RouterPager
         }
     }
 
-    override fun getCount(): Int {
-        return pages.size
-    }
+    override fun getCount(): Int = pages.size
 
-    override fun getPageTitle(position: Int): CharSequence {
-        return context?.getString(pages[position].getUiInfo().title) ?:""
-    }
+    override fun getPageTitle(position: Int): CharSequence =
+            context?.getString(pages[position].getUiInfo().title) ?: ""
+
+    fun getPageAt(position: Int): BaseController = pages[position]
 }

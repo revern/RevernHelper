@@ -13,6 +13,6 @@ interface TasksView : BaseView {
     fun addTask(task: Task)
 
     @StateStrategyType(value = SkipStrategy::class)
-    fun deleteTask(task: Task)
+    fun removeTask(task: Task)
 
 }

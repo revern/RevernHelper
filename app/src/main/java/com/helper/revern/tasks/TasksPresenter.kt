@@ -2,13 +2,9 @@ package com.helper.revern.tasks
 
 import android.util.Log
 import com.arellomobile.mvp.InjectViewState
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import com.helper.revern.AppDatabase
 import com.helper.revern.base.BasePresenter
 import com.helper.revern.tasks.dao.TasksInteractor
 import com.helper.revern.tasks.models.Task
-import com.helper.revern.utils.Prefs
 import java.util.*
 
 @InjectViewState
@@ -39,7 +35,7 @@ class TasksPresenter : BasePresenter<TasksView>() {
         viewState.showTasks(tasks)
     }
 
-    fun saveTasks() {
+    fun updateTasks() {
         Log.d("qqqwwweee", "save")
         TasksInteractor.updateAll(tasks)
 //        val tasksJson = Gson().toJson(tasks)
@@ -57,8 +53,20 @@ class TasksPresenter : BasePresenter<TasksView>() {
         TasksInteractor.update(task)
     }
 
-    fun removeLast() : Boolean {
-        TasksInteractor.delete(tasks.last())
-        return true
+    fun removeTask(task: Task) {
+        TasksInteractor.delete(task)
+        viewState.removeTask(task)
+        for (i in 0 until tasks.size) {
+            if (tasks[i].position != i) {
+                tasks[i].position = i
+                TasksInteractor.update(tasks[i])
+            }
+        }
+    }
+
+    fun removeAllCrossed() {
+        tasks
+                .filter { it.crossed }
+                .forEach { removeTask(it) }
     }
 }

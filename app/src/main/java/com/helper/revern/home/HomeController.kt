@@ -13,6 +13,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
 import com.helper.revern.R
 import com.helper.revern.base.BaseController
+import com.helper.revern.tasks.TasksController
 import com.helper.revern.utils.ui.UiInfo
 
 class HomeController : BaseController(), HomeView {
@@ -39,6 +40,8 @@ class HomeController : BaseController(), HomeView {
     @BindView(R.id.view_pager)
     lateinit var uiPager: ViewPager
 
+    private lateinit var adapter: HomeAdapter
+
     @OnClick(R.id.title_home)
     fun onTitleClick(view: View) {
         presenter.changeTitle("click")
@@ -49,7 +52,7 @@ class HomeController : BaseController(), HomeView {
     }
 
     private fun initPager() {
-        val adapter = HomeAdapter(this, applicationContext)
+        adapter = HomeAdapter(this, applicationContext)
         uiPager.adapter = adapter
 
         uiTabs.setupWithViewPager(uiPager)
@@ -63,6 +66,10 @@ class HomeController : BaseController(), HomeView {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_delete -> {
+                val controller = adapter.getPageAt(uiPager.currentItem)
+                if (controller is TasksController) {
+                    controller.removeAllCrossed()
+                }
                 return true
             }
             R.id.menu_settings -> {

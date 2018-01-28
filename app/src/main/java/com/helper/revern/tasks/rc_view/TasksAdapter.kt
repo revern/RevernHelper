@@ -30,4 +30,5 @@ class TasksAdapter(items: MutableList<Task>,
         getItems()[positionTo].position = positionFrom
         Collections.swap(getItems(), positionFrom, positionTo)
     }
+
 }
