@@ -11,11 +11,8 @@ import butterknife.BindView
 import butterknife.OnClick
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
-import com.bluelinelabs.conductor.RouterTransaction
-import com.bluelinelabs.conductor.changehandler.FadeChangeHandler
 import com.helper.revern.R
 import com.helper.revern.base.BaseController
-import com.helper.revern.demo.SettingsController
 import com.helper.revern.utils.ui.UiInfo
 
 class HomeController : BaseController(), HomeView {

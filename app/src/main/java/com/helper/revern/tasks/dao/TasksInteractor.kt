@@ -12,9 +12,15 @@ class TasksInteractor {
 
         fun getWithType(type: String) = dao().getTasksByType(type)
 
+        fun getWithTypeSorted(type: String) = dao().getAllTasksByTypeSorted(type)
+
         fun add(task: Task) = dao().insertTask(task)
 
         fun addAll(tasks: List<Task>) = dao().insertAll(tasks)
+
+        fun update(task: Task) = dao().updateTask(task)
+
+        fun updateAll(tasks: List<Task>) = dao().updateAllTask(tasks)
 
         fun delete(task: Task) = dao().delete(task)
 

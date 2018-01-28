@@ -1,5 +1,6 @@
 package com.helper.revern.base.rc_view
 
+import android.util.Log
 import android.view.ViewGroup
 import rx.functions.Func1
 import java.util.Collections
@@ -11,6 +12,7 @@ open class BaseDragAndDropRcvAdapter<T, VH : BaseRcvHolder<T>>(
     : BaseRcvAdapter<T, VH>(items, holderCreator, onRcvItemClickListener), DragAndDropAdapter {
 
     override fun onItemMove(positionFrom: Int, positionTo: Int) {
+        Log.d("qqqwwweee", "from - $positionFrom to - $positionTo" )
         if (positionFrom < positionTo) {
             for (i in positionFrom until positionTo) {
                 Collections.swap(getItems(), i, i + 1)

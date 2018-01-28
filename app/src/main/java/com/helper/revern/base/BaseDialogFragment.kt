@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import android.view.Window
 import butterknife.ButterKnife
 
-
 abstract class BaseDialogFragment : DialogFragment() {
 
     companion object {

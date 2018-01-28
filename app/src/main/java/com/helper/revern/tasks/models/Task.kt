@@ -8,6 +8,7 @@ import android.arch.persistence.room.PrimaryKey
 data class Task(
         @ColumnInfo(name = "type") var type: String,
         @ColumnInfo(name = "name") var name: String,
+        @ColumnInfo(name = "position") var position: Int,
         @ColumnInfo(name = "crossed") var crossed: Boolean = false) {
 
     @ColumnInfo(name = "id")

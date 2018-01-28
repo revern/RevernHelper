@@ -13,6 +13,9 @@ interface  TasksDao {
     @Query("select * from tasks where type = :type")
     fun getTasksByType(type: String): List<Task>
 
+    @Query("select * from tasks where type = :type order by position ASC")
+    fun getAllTasksByTypeSorted(type: String) : List<Task>
+
     @Query("select * from tasks where id = :id")
     fun getTaskById(id: Int): Task
 
@@ -24,6 +27,9 @@ interface  TasksDao {
 
     @Update(onConflict = REPLACE)
     fun updateTask(task: Task)
+
+    @Update(onConflict = REPLACE)
+    fun updateAllTask(tasks: List<Task>)
 
     @Delete
     fun delete(task: Task)
