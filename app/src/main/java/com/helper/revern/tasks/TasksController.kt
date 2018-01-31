@@ -1,14 +1,17 @@
 package com.helper.revern.tasks
 
+import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import butterknife.BindView
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
+import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.helper.revern.R
 import com.helper.revern.base.BaseController
 import com.helper.revern.base.rc_view.OnRcvItemClickListener
@@ -24,7 +27,13 @@ import rx.functions.Func0
 import rx.functions.Func1
 
 
-class TasksController : BaseController(), TasksView, OnRcvItemClickListener<Task> {
+class TasksController : BaseController, TasksView, OnRcvItemClickListener<Task> {
+
+    companion object {
+        const val ARG_TYPE = "argType"
+    }
+
+    private lateinit var type: String
 
     @InjectPresenter(type = PresenterType.LOCAL)
     lateinit var presenter: TasksPresenter
@@ -36,8 +45,21 @@ class TasksController : BaseController(), TasksView, OnRcvItemClickListener<Task
 
     private lateinit var adapter: TasksAdapter
 
+    constructor(type: String) {
+        this.type = type
+    }
+
+    constructor(args: Bundle?) : super(args)
+
     override fun getUiInfo(): UiInfo {
-        return UiInfo(R.layout.screen_tasks, R.string.title_tasks)
+        return UiInfo(R.layout.screen_tasks, type)
+    }
+
+    @ProvidePresenter(type = PresenterType.LOCAL)
+    fun providePresenterTag(): TasksPresenter {
+        val tasksPresenter = TasksPresenter()
+        tasksPresenter.setType(type)
+        return tasksPresenter
     }
 
     override fun onCreateView(view: View) {
@@ -46,6 +68,16 @@ class TasksController : BaseController(), TasksView, OnRcvItemClickListener<Task
             EditTextDialog.show(activity!!, R.string.title_new_task,
                     Func1 { text -> if (!Strings.isEmty(text)) presenter.addTask(text) })
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(ARG_TYPE, type)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        type = savedInstanceState.getString(ARG_TYPE)
     }
 
     override fun showTasks(tasks: MutableList<Task>) {

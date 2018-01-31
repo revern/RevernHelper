@@ -1,8 +1,10 @@
 <resources>
     <string name="app_name">Revern Helper</string>
     <string name="title_tasks">Tasks</string>
-    <string name="title_shopping_list">Shopping List</string>
+    <string name="title_new_list">New List</string>
     <string name="title_new_task">New Task</string>
+    <string name="dialog_title_add_list">Add New List</string>
+    <string name="error_list_already_exists">Sorry, but list with this name already exists.</string>
 
     <string name="menu_delete">Delete</string>
     <string name="menu_settings">Settings</string>

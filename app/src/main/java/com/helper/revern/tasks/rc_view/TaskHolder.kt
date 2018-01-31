@@ -27,6 +27,8 @@ class TaskHolder(itemView: View) : BaseRcvHolder<Task>(itemView) {
         uiName.text = item.name
         if (item.crossed) {
             EditTexts.crossTextView(uiName)
+        } else {
+            EditTexts.uncrossTextView(uiName)
         }
     }
 
