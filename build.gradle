@@ -5,7 +5,6 @@ buildscript {
         butterknife_version = '8.8.1'
         conductor_version = '2.1.4'
         moxy_version = '1.5.3'
-        room_version = '1.0.0'
     }
 
     repositories {

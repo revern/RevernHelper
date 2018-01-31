@@ -1,16 +1,16 @@
 package com.helper.revern.home
 
+import android.app.AlertDialog
 import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.TextView
 import butterknife.BindView
-import butterknife.OnClick
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
+import com.helper.revern.App
 import com.helper.revern.R
 import com.helper.revern.base.BaseController
 import com.helper.revern.tasks.TasksController
@@ -26,15 +26,9 @@ class HomeController : BaseController(), HomeView {
     }
 
     override fun getUiInfo(): UiInfo {
-        return UiInfo(R.layout.screen_home, R.string.app_name)
+        return UiInfo(R.layout.screen_home, App.context().getString(R.string.app_name))
     }
 
-    override fun changeTitle(msg: String) {
-        uiTitle.text = msg
-    }
-
-    @BindView(R.id.title_home)
-    lateinit var uiTitle: TextView
     @BindView(R.id.tab_layout)
     lateinit var uiTabs: TabLayout
     @BindView(R.id.view_pager)
@@ -42,20 +36,20 @@ class HomeController : BaseController(), HomeView {
 
     private lateinit var adapter: HomeAdapter
 
-    @OnClick(R.id.title_home)
-    fun onTitleClick(view: View) {
-        presenter.changeTitle("click")
-    }
-
     override fun onCreateView(view: View) {
-        initPager()
     }
 
-    private fun initPager() {
-        adapter = HomeAdapter(this, applicationContext)
+    override fun initPager(pages: ArrayList<BaseController>) {
+        initPager(pages, 0)
+    }
+
+    override fun initPager(pages: ArrayList<BaseController>, position: Int) {
+        adapter = HomeAdapter(this, pages)
+        uiPager.offscreenPageLimit = 30
         uiPager.adapter = adapter
 
         uiTabs.setupWithViewPager(uiPager)
+        uiPager.currentItem = position
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -77,6 +71,23 @@ class HomeController : BaseController(), HomeView {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun addPage(page: BaseController) {
+        val position = adapter.addPage(page)
+        uiPager.currentItem = position
+    }
+
+    override fun showError(errorText: String) {
+        AlertDialog.Builder(activity)
+                .setTitle(errorText)
+                .setPositiveButton(android.R.string.ok, null)
+                .create()
+                .show()
+    }
+
+    override fun showError(errorTextRes: Int) {
+        showError(activity!!.getString(errorTextRes))
     }
 
 }
