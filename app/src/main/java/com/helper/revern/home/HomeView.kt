@@ -7,19 +7,15 @@ import com.helper.revern.base.BaseView
 
 interface HomeView : BaseView {
 
-    @StateStrategyType(value = SkipStrategy::class)
     fun initPager(pages: ArrayList<BaseController>)
 
-    @StateStrategyType(value = SkipStrategy::class)
-    fun initPager(pages: ArrayList<BaseController>, position: Int)
+    fun selectPage(position: Int)
 
     @StateStrategyType(value = SkipStrategy::class)
     fun addPage(page: BaseController)
 
-    @StateStrategyType(value = SkipStrategy::class)
     fun showError(errorText: String)
 
-    @StateStrategyType(value = SkipStrategy::class)
     fun showError(errorTextRes: Int)
 
 }

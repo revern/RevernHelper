@@ -22,9 +22,9 @@ class HomeAdapter(host: Controller, private val pages: ArrayList<BaseController>
     fun getPageAt(position: Int): BaseController = pages[position]
 
     fun addPage(page: BaseController): Int {
-        pages.add(count - 1, page)
+        pages.add(count, page)
         notifyDataSetChanged()
-        return count - 2
+        return count - 1
     }
 
 }

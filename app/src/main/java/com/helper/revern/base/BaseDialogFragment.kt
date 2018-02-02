@@ -45,9 +45,9 @@ abstract class BaseDialogFragment : DialogFragment() {
         }
     }
 
-    protected fun restoreState(savedState: Bundle) {}
+    protected open fun restoreState(savedState: Bundle) {}
 
-    protected fun parseArguments(args: Bundle) {}
+    protected open fun parseArguments(args: Bundle) {}
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)

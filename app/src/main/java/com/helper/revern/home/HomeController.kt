@@ -7,6 +7,8 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
+import android.widget.LinearLayout
 import butterknife.BindView
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
@@ -14,11 +16,15 @@ import com.helper.revern.App
 import com.helper.revern.R
 import com.helper.revern.base.BaseController
 import com.helper.revern.tasks.TasksController
+import com.helper.revern.tasks.dialogs.AddTaskDialog
+import com.helper.revern.utils.Strings
+import com.helper.revern.utils.ui.EditTextDialog
 import com.helper.revern.utils.ui.UiInfo
+import rx.functions.Func1
 
 class HomeController : BaseController(), HomeView {
 
-    @InjectPresenter(type = PresenterType.LOCAL)
+    @InjectPresenter(type = PresenterType.GLOBAL)
     lateinit var presenter: HomePresenter
 
     init {
@@ -29,7 +35,7 @@ class HomeController : BaseController(), HomeView {
         return UiInfo(R.layout.screen_home, App.context().getString(R.string.app_name))
     }
 
-    @BindView(R.id.tab_layout)
+    @BindView(R.id.tabs)
     lateinit var uiTabs: TabLayout
     @BindView(R.id.view_pager)
     lateinit var uiPager: ViewPager
@@ -40,15 +46,26 @@ class HomeController : BaseController(), HomeView {
     }
 
     override fun initPager(pages: ArrayList<BaseController>) {
-        initPager(pages, 0)
-    }
-
-    override fun initPager(pages: ArrayList<BaseController>, position: Int) {
         adapter = HomeAdapter(this, pages)
         uiPager.offscreenPageLimit = 30
         uiPager.adapter = adapter
 
+        initTabs()
+    }
+
+    private fun initTabs() {
         uiTabs.setupWithViewPager(uiPager)
+        val tab = uiTabs.newTab()
+        val imgView = ImageView(activity)
+        imgView.setImageResource(R.drawable.ic_add_box_accent_24dp)
+        imgView.setOnClickListener { EditTextDialog.show(activity!!, R.string.dialog_title_add_list, Func1 {
+            text -> if (!Strings.isEmty(text)) presenter.addList(text)
+        }) }
+        tab.customView = imgView
+        uiTabs.addTab(tab,adapter.count,false)
+    }
+
+    override fun selectPage(position: Int) {
         uiPager.currentItem = position
     }
 
@@ -67,6 +84,7 @@ class HomeController : BaseController(), HomeView {
                 return true
             }
             R.id.menu_settings -> {
+                AddTaskDialog.show(activity!!, "qwe")
                 return true
             }
         }
@@ -74,8 +92,8 @@ class HomeController : BaseController(), HomeView {
     }
 
     override fun addPage(page: BaseController) {
-        val position = adapter.addPage(page)
-        uiPager.currentItem = position
+        adapter.addPage(page)
+        initTabs()
     }
 
     override fun showError(errorText: String) {

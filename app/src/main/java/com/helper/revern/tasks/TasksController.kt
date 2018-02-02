@@ -5,7 +5,6 @@ import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import butterknife.BindView
@@ -65,7 +64,7 @@ class TasksController : BaseController, TasksView, OnRcvItemClickListener<Task> 
     override fun onCreateView(view: View) {
         uiTasks.layoutManager = LinearLayoutManager(applicationContext)
         uiAddTask.setOnClickListener { _ ->
-            EditTextDialog.show(activity!!, R.string.title_new_task,
+            EditTextDialog.show(activity!!, R.string.title_add_task,
                     Func1 { text -> if (!Strings.isEmty(text)) presenter.addTask(text) })
         }
     }
