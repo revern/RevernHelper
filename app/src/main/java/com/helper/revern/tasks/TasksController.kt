@@ -20,8 +20,8 @@ import com.helper.revern.tasks.rc_view.TasksAdapter
 import com.helper.revern.tasks.rc_view.TasksDragAndDropHelperCallback
 import com.helper.revern.utils.EditTexts
 import com.helper.revern.utils.Strings
-import com.helper.revern.utils.ui.EditTextDialog
 import com.helper.revern.utils.ui.UiInfo
+import com.helper.revern.utils.ui.dialogs.EditTextDialog
 import rx.functions.Func0
 import rx.functions.Func1
 

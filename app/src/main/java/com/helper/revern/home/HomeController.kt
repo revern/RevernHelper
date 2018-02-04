@@ -2,13 +2,14 @@ package com.helper.revern.home
 
 import android.app.AlertDialog
 import android.support.design.widget.TabLayout
+import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageButton
 import android.widget.ImageView
-import android.widget.LinearLayout
 import butterknife.BindView
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
@@ -16,10 +17,9 @@ import com.helper.revern.App
 import com.helper.revern.R
 import com.helper.revern.base.BaseController
 import com.helper.revern.tasks.TasksController
-import com.helper.revern.tasks.dialogs.AddTaskDialog
 import com.helper.revern.utils.Strings
-import com.helper.revern.utils.ui.EditTextDialog
 import com.helper.revern.utils.ui.UiInfo
+import com.helper.revern.utils.ui.dialogs.EditTextDialog
 import rx.functions.Func1
 
 class HomeController : BaseController(), HomeView {
@@ -56,13 +56,16 @@ class HomeController : BaseController(), HomeView {
     private fun initTabs() {
         uiTabs.setupWithViewPager(uiPager)
         val tab = uiTabs.newTab()
-        val imgView = ImageView(activity)
-        imgView.setImageResource(R.drawable.ic_add_box_accent_24dp)
-        imgView.setOnClickListener { EditTextDialog.show(activity!!, R.string.dialog_title_add_list, Func1 {
-            text -> if (!Strings.isEmty(text)) presenter.addList(text)
-        }) }
-        tab.customView = imgView
-        uiTabs.addTab(tab,adapter.count,false)
+        val imgBtn = ImageButton(activity)
+        imgBtn.setBackgroundColor(ContextCompat.getColor(activity!!, android.R.color.transparent)) //TODO remake with saving button effects
+        imgBtn.setImageResource(R.drawable.ic_add_box_accent_36dp)
+        imgBtn.setOnClickListener {
+            EditTextDialog.show(activity!!, R.string.dialog_title_add_list, Func1 { text ->
+                if (!Strings.isEmty(text)) presenter.addList(text)
+            })
+        }
+        tab.customView = imgBtn
+        uiTabs.addTab(tab, adapter.count, false)
     }
 
     override fun selectPage(position: Int) {
@@ -84,7 +87,6 @@ class HomeController : BaseController(), HomeView {
                 return true
             }
             R.id.menu_settings -> {
-                AddTaskDialog.show(activity!!, "qwe")
                 return true
             }
         }

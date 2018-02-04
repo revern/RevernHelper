@@ -3,12 +3,10 @@ package com.helper.revern.base
 import android.app.Activity
 import android.app.Dialog
 import android.app.DialogFragment
+import android.graphics.Point
 import android.support.annotation.LayoutRes
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.Window
+import android.view.*
 import butterknife.ButterKnife
 
 abstract class BaseDialogFragment : DialogFragment() {
@@ -31,7 +29,8 @@ abstract class BaseDialogFragment : DialogFragment() {
         }
     }
 
-    @LayoutRes abstract fun getLayoutRes(): Int
+    @LayoutRes
+    abstract fun getLayoutRes(): Int
 
     abstract fun getSimpleTag(): String
 
@@ -57,8 +56,24 @@ abstract class BaseDialogFragment : DialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = inflater!!.inflate(getLayoutRes(), container, false)
-        ButterKnife.bind(view)
+        ButterKnife.bind(this, view)
+        onPostCreateView()
         return view
+    }
+
+    protected open fun onPostCreateView() {}
+
+    override fun onResume() {
+        super.onResume()
+
+        val window = dialog.window
+        val size = Point()
+
+        val display = window!!.windowManager.defaultDisplay
+        display.getSize(size)
+
+        window.setLayout((size.x * 0.9).toInt(), WindowManager.LayoutParams.WRAP_CONTENT)
+        window.setGravity(Gravity.CENTER)
     }
 
 }
