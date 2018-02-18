@@ -1,9 +1,11 @@
+### Gradle
+.gradle/
+build/
+
+### IntelliJ IDEA
+/.idea
 *.iml
-.gradle
-/local.properties
-/.idea/workspace.xml
-/.idea/libraries
-.DS_Store
-/build
-/captures
-.externalNativeBuild
+local.properties
+
+### Android
+*.jks
