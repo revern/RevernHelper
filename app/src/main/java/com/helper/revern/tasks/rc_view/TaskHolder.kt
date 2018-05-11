@@ -3,12 +3,12 @@ package com.helper.revern.tasks.rc_view
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import butterknife.BindView
 import com.helper.revern.R
-import com.helper.revern.tasks.models.Task
 import com.helper.revern.base.rc_view.BaseRcvHolder
-import com.helper.revern.utils.EditTexts
+import com.helper.revern.tasks.models.Task
+import com.helper.revern.utils.crossText
+import com.helper.revern.utils.uncrossText
+import kotlinx.android.synthetic.main.item_task.view.*
 import rx.functions.Func1
 
 class TaskHolder(itemView: View) : BaseRcvHolder<Task>(itemView) {
@@ -21,16 +21,13 @@ class TaskHolder(itemView: View) : BaseRcvHolder<Task>(itemView) {
                 }
     }
 
-    @BindView(R.id.task_name) lateinit var uiName: TextView
-
     override fun bind(item: Task) {
-        uiName.text = item.name
+        itemView.task_name.text = item.name
         if (item.crossed) {
-            EditTexts.crossTextView(uiName)
+            itemView.task_name.crossText()
         } else {
-            EditTexts.uncrossTextView(uiName)
+            itemView.task_name.uncrossText()
         }
     }
-
 
 }

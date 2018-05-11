@@ -1,13 +1,10 @@
 package com.helper.revern.tasks
 
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
 import android.widget.TextView
-import butterknife.BindView
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
 import com.arellomobile.mvp.presenter.ProvidePresenter
@@ -18,13 +15,14 @@ import com.helper.revern.tasks.models.Task
 import com.helper.revern.tasks.rc_view.TaskHolder
 import com.helper.revern.tasks.rc_view.TasksAdapter
 import com.helper.revern.tasks.rc_view.TasksDragAndDropHelperCallback
-import com.helper.revern.utils.EditTexts
 import com.helper.revern.utils.Strings
+import com.helper.revern.utils.crossText
 import com.helper.revern.utils.ui.UiInfo
 import com.helper.revern.utils.ui.dialogs.EditTextDialog
+import com.helper.revern.utils.uncrossText
+import kotlinx.android.synthetic.main.screen_tasks.view.*
 import rx.functions.Func0
 import rx.functions.Func1
-
 
 class TasksController : BaseController, TasksView, OnRcvItemClickListener<Task> {
 
@@ -36,11 +34,6 @@ class TasksController : BaseController, TasksView, OnRcvItemClickListener<Task> 
 
     @InjectPresenter(type = PresenterType.LOCAL)
     lateinit var presenter: TasksPresenter
-
-    @BindView(R.id.tasks_rv)
-    lateinit var uiTasks: RecyclerView
-    @BindView(R.id.add_task_fab)
-    lateinit var uiAddTask: FloatingActionButton
 
     private lateinit var adapter: TasksAdapter
 
@@ -62,10 +55,12 @@ class TasksController : BaseController, TasksView, OnRcvItemClickListener<Task> 
     }
 
     override fun onCreateView(view: View) {
-        uiTasks.layoutManager = LinearLayoutManager(applicationContext)
-        uiAddTask.setOnClickListener { _ ->
-            EditTextDialog.show(activity!!, R.string.title_add_task,
-                    Func1 { text -> if (!Strings.isEmty(text)) presenter.addTask(text) })
+        view.tv_tasks.layoutManager = LinearLayoutManager(applicationContext)
+        view.fab_add_task.setOnClickListener {
+            activity?.let {
+                EditTextDialog.show(it, R.string.title_add_task,
+                        Func1 { text -> if (!Strings.isEmty(text)) presenter.addTask(text) })
+            }
         }
     }
 
@@ -81,11 +76,13 @@ class TasksController : BaseController, TasksView, OnRcvItemClickListener<Task> 
 
     override fun showTasks(tasks: MutableList<Task>) {
         adapter = TasksAdapter(tasks, TaskHolder.getHolderCreator(), this)
-        uiTasks.adapter = adapter
-        val itemTouchHelper = ItemTouchHelper(TasksDragAndDropHelperCallback(adapter, Func0 {
-            presenter.updateTasks()
-        }))
-        itemTouchHelper.attachToRecyclerView(uiTasks)
+        view?.let {
+            it.tv_tasks.adapter = adapter
+            val itemTouchHelper = ItemTouchHelper(TasksDragAndDropHelperCallback(adapter, Func0 {
+                presenter.updateTasks()
+            }))
+            itemTouchHelper.attachToRecyclerView(it.tv_tasks)
+        }
     }
 
     fun removeAllCrossed() {
@@ -95,9 +92,9 @@ class TasksController : BaseController, TasksView, OnRcvItemClickListener<Task> 
     override fun onItemClick(view: View, item: Task) {
         if (view is TextView) {
             if (item.crossed) {
-                EditTexts.uncrossTextView(view)
+                view.uncrossText()
             } else {
-                EditTexts.crossTextView(view)
+                view.crossText()
             }
             presenter.changeTaskCrossing(item)
         }
@@ -105,7 +102,9 @@ class TasksController : BaseController, TasksView, OnRcvItemClickListener<Task> 
 
     override fun addTask(task: Task) {
         adapter.add(task)
-        uiTasks.scrollToPosition(adapter.itemCount - 1)
+        view?.let {
+            it.tv_tasks.scrollToPosition(adapter.itemCount - 1)
+        }
     }
 
     override fun removeTask(task: Task) {

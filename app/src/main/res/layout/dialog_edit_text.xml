@@ -5,7 +5,7 @@
     >
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/tv_title"
         style="?android:attr/alertDialogTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,12 +21,12 @@
         android:inputType="textCapSentences"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/title"
+        android:layout_below="@+id/tv_title"
         android:layout_marginBottom="32dp"
         />
 
     <Button
-        android:id="@+id/positive_btn"
+        android:id="@+id/btn_positive"
         style="?android:attr/buttonBarButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,12 +36,12 @@
         />
 
     <Button
-        android:id="@+id/negative_btn"
+        android:id="@+id/btn_negative"
         style="?android:attr/buttonBarButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/edit_text"
-        android:layout_toLeftOf="@+id/positive_btn"
+        android:layout_toLeftOf="@+id/btn_positive"
         android:text="@android:string/cancel"
         />
 

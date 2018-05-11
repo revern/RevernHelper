@@ -4,10 +4,9 @@ import android.app.Activity
 import android.app.Dialog
 import android.app.DialogFragment
 import android.graphics.Point
-import android.support.annotation.LayoutRes
 import android.os.Bundle
+import android.support.annotation.LayoutRes
 import android.view.*
-import butterknife.ButterKnife
 
 abstract class BaseDialogFragment : DialogFragment() {
 
@@ -54,14 +53,13 @@ abstract class BaseDialogFragment : DialogFragment() {
         return dialog
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val view = inflater!!.inflate(getLayoutRes(), container, false)
-        ButterKnife.bind(this, view)
-        onPostCreateView()
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        val view = inflater.inflate(getLayoutRes(), container, false)
+        onPostCreateView(view)
         return view
     }
 
-    protected open fun onPostCreateView() {}
+    protected open fun onPostCreateView(view: View) {}
 
     override fun onResume() {
         super.onResume()
@@ -69,7 +67,7 @@ abstract class BaseDialogFragment : DialogFragment() {
         val window = dialog.window
         val size = Point()
 
-        val display = window!!.windowManager.defaultDisplay
+        val display = window.windowManager.defaultDisplay
         display.getSize(size)
 
         window.setLayout((size.x * 0.9).toInt(), WindowManager.LayoutParams.WRAP_CONTENT)

@@ -3,16 +3,13 @@ package com.helper.revern.utils.ui.dialogs
 import android.app.Activity
 import android.content.DialogInterface
 import android.os.Bundle
+import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.EditText
-import android.widget.TextView
-import butterknife.BindView
-import butterknife.OnClick
-import butterknife.OnEditorAction
 import com.helper.revern.R
 import com.helper.revern.base.BaseDialogFragment
 import com.helper.revern.utils.Keyboard
 import com.helper.revern.utils.Strings
+import kotlinx.android.synthetic.main.dialog_edit_text.view.*
 import rx.functions.Func1
 
 class EditTextDialog : BaseDialogFragment() {
@@ -31,29 +28,6 @@ class EditTextDialog : BaseDialogFragment() {
     private lateinit var title: String
     private lateinit var onPositiveClickFunc: Func1<String, Unit>
 
-    @BindView(R.id.title) lateinit var uiTitle: TextView
-    @BindView(R.id.edit_text) lateinit var uiEditText: EditText
-
-    @OnClick(R.id.positive_btn) fun onPositiveClick() {
-        val text = uiEditText.text.toString()
-        if (Strings.isEmty(text)) {
-            uiEditText.error = getString(R.string.error_empty_text)
-        } else {
-            onPositiveClickFunc.call(uiEditText.text.toString())
-            dismiss()
-        }
-    }
-
-    @OnClick(R.id.negative_btn) fun onNegativeClick() = dismiss()
-
-    @OnEditorAction(R.id.edit_text) fun onEnterClick(actionId: Int): Boolean {
-        if (actionId == EditorInfo.IME_ACTION_DONE) {
-            onPositiveClick()
-            return true
-        }
-        return false
-    }
-
     override fun getLayoutRes(): Int = R.layout.dialog_edit_text
 
     override fun getSimpleTag(): String = TAG
@@ -62,14 +36,40 @@ class EditTextDialog : BaseDialogFragment() {
 
     override fun restoreState(savedState: Bundle) {}
 
-    override fun onPostCreateView() {
-        uiTitle.text = title
-        Keyboard.show(activity)
+    override fun onPostCreateView(view: View) {
+        view.tv_title.text = title
+
+        view.btn_positive.setOnClickListener { onPositiveClick() }
+        view.btn_negative.setOnClickListener { onNegativeClick() }
+
+        view.edit_text.setOnEditorActionListener { _, actionId, _ -> onEnterClick(actionId) }
+
+        Keyboard.show(activity) //TODO replace to edit_text
     }
 
     override fun onDismiss(dialog: DialogInterface?) {
-        Keyboard.hide(uiEditText)
+        Keyboard.hide(view.edit_text)
         super.onDismiss(dialog)
+    }
+
+    private fun onPositiveClick() {
+        val text = view.edit_text.text.toString()
+        if (Strings.isEmty(text)) {
+            view.edit_text.error = getString(R.string.error_empty_text)
+        } else {
+            onPositiveClickFunc.call(view.edit_text.text.toString())
+            dismiss()
+        }
+    }
+
+    private fun onNegativeClick() = dismiss()
+
+    private fun onEnterClick(actionId: Int): Boolean {
+        if (actionId == EditorInfo.IME_ACTION_DONE) {
+            onPositiveClick()
+            return true
+        }
+        return false
     }
 
 }

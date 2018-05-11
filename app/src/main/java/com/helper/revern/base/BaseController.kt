@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import butterknife.ButterKnife
 import com.arellomobile.mvp.MvpDelegate
 import com.bluelinelabs.conductor.Controller
 import com.helper.revern.utils.ui.UiInfo
@@ -28,7 +27,6 @@ abstract class BaseController : Controller {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         val view = inflater.inflate(getUiInfo().resLayout, container, false)
-        ButterKnife.bind(this, view)
 
         onCreateView(view)
 

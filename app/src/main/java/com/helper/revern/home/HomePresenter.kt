@@ -54,5 +54,4 @@ class HomePresenter : BasePresenter<HomeView>() {
         Prefs.instance().edit().putString(KEY_ALL_LISTS_NAMES, json).apply()
     }
 
-
 }

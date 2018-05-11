@@ -1,8 +1,8 @@
 buildscript {
     ext {
-        kotlin_version = '1.2.21'
-        support_lib_version = '27.0.2'
-        butterknife_version = '8.8.1'
+        kotlin_version = '1.2.41'
+        support_lib_version = '27.1.1'
+        build_tools_version = '27.0.3'
         conductor_version = '2.1.4'
         moxy_version = '1.5.3'
     }
@@ -13,10 +13,9 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.android.tools.build:gradle:3.1.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlin_version"
-        classpath "com.jakewharton:butterknife-gradle-plugin:$butterknife_version"
     }
 }
 

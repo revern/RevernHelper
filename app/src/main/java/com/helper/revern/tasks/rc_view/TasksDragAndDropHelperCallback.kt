@@ -9,9 +9,9 @@ class TasksDragAndDropHelperCallback(
         private val func0: Func0<Unit>)
     : DragAndDropHelperCallback(adapter) {
 
-    override fun onMove(recyclerView: RecyclerView?,
-                        viewHolder: RecyclerView.ViewHolder?,
-                        target: RecyclerView.ViewHolder?): Boolean {
+    override fun onMove(recyclerView: RecyclerView,
+                        viewHolder: RecyclerView.ViewHolder,
+                        target: RecyclerView.ViewHolder): Boolean {
         val result = super.onMove(recyclerView, viewHolder, target)
         func0.call()
         return result
