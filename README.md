@@ -6,4 +6,3 @@
 * MVP
 * Moxy
 * Conductor
-* ButterKnife
